@@ -1,4 +1,4 @@
-# RFT custom Github workflow action helpers
+# Custom Github workflow action helpers
 A reference Github workflow file is in ./github/workflows/example.yaml
 
 ## Prepare build
