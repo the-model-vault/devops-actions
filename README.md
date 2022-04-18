@@ -19,7 +19,7 @@ Prepare set of variables related to project build that will be used later.
 
 ### Usage
 ```yaml
-- uses: riskfintech-ltd/devops-actions/prepare-build@v3
+- uses: the-model-vault/devops-actions/prepare-build@v3
 ```
 
 ## Build and Publish to ECR
@@ -37,7 +37,7 @@ Prepare set of variables related to project build that will be used later.
 
 ### Usage
 ```yaml
-  - uses: riskfintech-ltd/devops-actions/publish-ecr@v3
+  - uses: the-model-vault/devops-actions/publish-ecr@v3
     with:
       build-args: --build-arg RELEASE_SIGNATRUE=${{ steps.build.outputs.name }}-${{ env.build_version }}
 ```
@@ -56,7 +56,7 @@ Publish project package to Chart Museum
 
 ## Example
 ```yaml
-  - uses: riskfintech-ltd/devops-actions/helm@v3
+  - uses: the-model-vault/devops-actions/helm@v3
     with:
       chartmuseum-url: "https://..."
       chartmuseum-username: ${{ secrets.username }}
@@ -73,7 +73,7 @@ Notify Slack about build result (successful or failed).
 
 ## Example:
 ```yaml
-  - uses: riskfintech-ltd/devops-actions/slack@v3
+  - uses: the-model-vault/devops-actions/slack@v3
     with:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 ```
@@ -92,10 +92,10 @@ Make a release with archive and tag on GitHub
 
 ## Example:
 ```yaml
-  - uses: riskfintech-ltd/devops-actions/release@v3
+  - uses: the-model-vault/devops-actions/release@v3
     with:
       folder: 'models/'
-      github-token: ${{ secrets.TOKEN }}
+      github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 # Get branch name
@@ -105,3 +105,9 @@ Service action for getting current branch name in workflow
 Saves branch name into `env.BRANCH_NAME`.
 
 ## Example:
+```yaml
+  - uses: the-model-vault/devops-actions/get-branch-name@v3
+  - name: Print current branch name
+    run: |
+      echo ${{ env.BRANCH_NAME }}
+```

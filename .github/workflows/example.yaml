@@ -12,35 +12,35 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: riskfintech-ltd/devops-actions/get-branch-name@v3
+      - uses: the-model-vault/devops-actions/get-branch-name@v3
       - name: Print current branch name
         run: |
           echo ${{ env.BRANCH_NAME }}
 
-      - uses: riskfintech-ltd/devops-actions/prepare-build@v3
+      - uses: the-model-vault/devops-actions/prepare-build@v3
 
       # Do some testing here or whatever you need
       # - name: Testing
       #     run: |
       #       .......
 
-      - uses: riskfintech-ltd/devops-actions/publish-ecr@v3
+      - uses: the-model-vault/devops-actions/publish-ecr@v3
         with:
           access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret: ${{ secrets.AWS_ACCESS_SECRET }}
 
-#      - uses: riskfintech-ltd/devops-actions/helm@v3
+#      - uses: the-model-vault/devops-actions/helm@v3
 #        with:
 #          chartmuseum-url: <put your Chart Museum URL here>
 #          chartmuseum-username: ${{ secrets.CHARTMUSEUM_USERNAME }}
 #          chartmuseum-password: ${{ secrets.CHARTMUSEUM_PASSWORD }}
 
-      - uses: riskfintech-ltd/devops-actions/release@v3
+      - uses: the-model-vault/devops-actions/release@v3
         with:
           folder: 'release'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: riskfintech-ltd/devops-actions/slack@v3
+      - uses: the-model-vault/devops-actions/slack@v3
         with:
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
