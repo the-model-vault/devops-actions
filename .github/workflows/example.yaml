@@ -38,7 +38,7 @@ jobs:
       - uses: riskfintech-ltd/devops-actions/release@v3
         with:
           folder: 'release'
-          github-token: ${{ secrets.TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: riskfintech-ltd/devops-actions/slack@v3
         with:
