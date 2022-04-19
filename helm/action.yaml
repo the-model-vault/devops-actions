@@ -39,6 +39,6 @@ runs:
       env:
         CHART_PACKAGE: ${{ inputs.name }}-${{ env.chart_version }}.tgz
       run: |
-        echo "chart_package=$CHART_PACKAGE" >> GITHUB_ENV
+        echo "chart_package=$CHART_PACKAGE" >> $GITHUB_ENV
         curl -v -u ${{ inputs.chartmuseum-username }}:${{ inputs.chartmuseum-password }} -F "chart=@$CHART_PACKAGE" ${{inputs.chartmuseum-url}}/api/charts
       shell: bash
