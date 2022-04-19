@@ -26,7 +26,7 @@ inputs:
 outputs:
   image:
     description: Docker image
-    value: ${{ env.image }}
+    value: ${{ steps.docker.outputs.image }}
 runs:
   using: "composite"
   steps:
@@ -50,4 +50,5 @@ runs:
         echo "image=$IMAGE" >> GITHUB_ENV
         docker build ${{ inputs.build-args }} -f ${{ inputs.file }} -t $IMAGE ${{ inputs.ssh }} .
         docker push $IMAGE
+        echo "::set-output name=image::$IMAGE"
       shell: bash
