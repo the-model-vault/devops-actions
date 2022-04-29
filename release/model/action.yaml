@@ -15,8 +15,6 @@ inputs:
   parent_token:
     description: parent repo token
     required: true
-
-outputs:
 runs:
   using: "composite"
   steps:
