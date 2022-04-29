@@ -23,6 +23,7 @@ runs:
       run: |
         echo 'Testing release ${{ env.build_version }}'
         python ./test/validate_rules.py --rules_folder ./${{ inputs.folder }}/transformation ./${{ inputs.folder }}/validation ./${{ inputs.folder }}/reconciliation --static_folder ./${{ inputs.folder }}/static_tables
+      shell: bash
 
     - name: Write hydra version
       run: |
