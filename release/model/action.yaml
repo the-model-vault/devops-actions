@@ -30,15 +30,18 @@ runs:
       run: |
             pip install pytest
             pip install -r requirements.txt
+      shell: bash
     - name: Testing release
       run: |
         pytest test
+      shell: bash
 
     - name: Write sedna version
       run: |
         echo 'modelName: '${{ inputs.name }} > ./${{ inputs.folder }}/sednaVersion.yaml
         echo 'version: '${{ env.build_version }} >> ./${{ inputs.folder }}/sednaVersion.yaml
         echo 'gitSha: '${{ steps.build.outputs.sha-full-var }} >> ./${{ inputs.folder }}/sednaVersion.yaml
+      shell: bash
 
     - uses: the-model-vault/devops-actions/release@v3
       with:
