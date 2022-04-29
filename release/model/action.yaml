@@ -1,0 +1,58 @@
+name: Make a models release
+description: Prepare everything for models release
+inputs:
+  folder: 
+    description: folder for models
+    required: false
+    default: sedna_models
+  name:
+    description: release name
+    required: false
+    default: ${{ github.event.repository.name }}
+  parent:
+    description: parent repo name
+    required: true
+  parent_token:
+    description: parent repo token
+    required: true
+
+outputs:
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@master
+    - uses: the-model-vault/devops-actions/prepare-build@v3
+      id: build
+
+    - name: Set up Python 3
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3
+    - name: Install Python dependencies
+      run: |
+            pip install pytest
+            pip install -r requirements.txt
+    - name: Testing release
+      run: |
+        pytest test
+
+    - name: Write sedna version
+      run: |
+        echo 'modelName: '${{ inputs.name }} > ./${{ inputs.folder }}/sednaVersion.yaml
+        echo 'version: '${{ env.build_version }} >> ./${{ inputs.folder }}/sednaVersion.yaml
+        echo 'gitSha: '${{ steps.build.outputs.sha-full-var }} >> ./${{ inputs.folder }}/sednaVersion.yaml
+
+    - uses: the-model-vault/devops-actions/release@v3
+      with:
+        folder: ${{ inputs.folder }}/
+        name: ${{ inputs.name }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Activate parent models build
+      if: github.event_name == 'push'
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ inputs.parent_token }}
+        repository: ${{ inputs.parent }}
+        event-type: model-is-updated
+        client-payload: '{"hello":"${{ inputs.name }}"}'
