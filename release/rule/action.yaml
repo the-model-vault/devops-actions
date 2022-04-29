@@ -1,0 +1,33 @@
+name: Make a rules release
+description: Prepare everything for rules release
+inputs:
+  folder: 
+    description: folder for rules
+    required: false
+    default: hydra_rules
+  name:
+    description: release name
+    required: false
+    default: ${{ github.event.repository.name }}
+  github_token:
+    description: repo GitHub token
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@master
+    - uses: the-model-vault/devops-actions/prepare-build@v3
+      id: build
+
+    - name: Write hydra version
+      run: |
+        echo 'ruleName: '${{ inputs.name }} > ./${{ inputs.folder }}/hydraVersion.yaml
+        echo 'version: '${{ env.build_version }} >> ./${{ inputs.folder }}/hydraVersion.yaml
+        echo 'gitSha: '${{ steps.build.outputs.sha-full-var }} >> ./${{ inputs.folder }}/hydraVersion.yaml
+      shell: bash
+
+    - uses: the-model-vault/devops-actions/release@v3
+      with:
+        folder: ${{ inputs.folder }}/
+        name: ${{ inputs.name }}
+        github-token: ${{ inputs.github_token }}
