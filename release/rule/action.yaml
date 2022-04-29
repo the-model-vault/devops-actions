@@ -19,6 +19,11 @@ runs:
     - uses: the-model-vault/devops-actions/prepare-build@v3
       id: build
 
+    - name: Testing release
+      run: |
+        echo 'Testing release ${{ env.build_version }}'
+        python ./test/validate_rules.py --rules_folder ./${{ inputs.folder }}/transformation ./${{ inputs.folder }}/validation ./${{ inputs.folder }}/reconciliation --static_folder ./${{ inputs.folder }}/static_tables
+
     - name: Write hydra version
       run: |
         echo 'ruleName: '${{ inputs.name }} > ./${{ inputs.folder }}/hydraVersion.yaml
