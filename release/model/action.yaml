@@ -12,6 +12,9 @@ inputs:
   parent:
     description: parent repo name
     required: true
+  github_token:
+    description: repo GitHub token
+    required: true
   parent_token:
     description: parent repo token
     required: true
@@ -47,7 +50,7 @@ runs:
       with:
         folder: ${{ inputs.folder }}/
         name: ${{ inputs.name }}
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ inputs.github_token }}
 
     - name: Activate parent models build
       if: github.event_name == 'push'
