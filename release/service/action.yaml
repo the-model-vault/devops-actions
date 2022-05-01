@@ -35,19 +35,19 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v2
-    - uses: riskfintech-ltd/devops-actions/prepare-build@v3
+    - uses: the-model-vault/devops-actions/prepare-build@v3
     - uses: actions/setup-java@v1
       with:
         java-version: ${{ inputs.java-version }}
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
       shell: bash
-    - uses: riskfintech-ltd/devops-actions/publish-ecr/with-gradle@main
+    - uses: the-model-vault/devops-actions/publish-ecr/with-gradle@main
       with:
         access-key: ${{ inputs.access-key }}
         secret: ${{ inputs.secret }}
         region: ${{ inputs.region }}
-    - uses: riskfintech-ltd/devops-actions/helm@v3
+    - uses: the-model-vault/devops-actions/helm@v3
       with:
         chartmuseum-url: ${{ inputs.chartmuseum-url }}
         chartmuseum-username: ${{ inputs.chartmuseum-username }}
