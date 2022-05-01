@@ -11,6 +11,10 @@ inputs:
     description: AWS Region
     required: false
     default: eu-west-2
+  run-before-build:
+    description: Command that should be run before build
+    required: false
+    default: ""
 outputs:
   image:
     description: Docker image
@@ -29,6 +33,11 @@ runs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Init build with custom command
+      if: inputs.run-before-build != ''
+      run: |
+        ${{ inputs.run-before-build }}
+      shell: bash
     - name: Build, tag, and push image to Amazon ECR
       id: docker
       env:

@@ -31,6 +31,10 @@ inputs:
   slack-webhook-url:
     description: URL of Slack Webhook to notify
     required: true
+  run-before-build:
+    description: Command that should be run before build
+    required: false
+    default: ""
 runs:
   using: "composite"
   steps:
@@ -47,6 +51,7 @@ runs:
         access-key: ${{ inputs.access-key }}
         secret: ${{ inputs.secret }}
         region: ${{ inputs.region }}
+        run-before-build: ${{ inputs.run-before-build }}
     - uses: the-model-vault/devops-actions/helm@v3
       with:
         chartmuseum-url: ${{ inputs.chartmuseum-url }}
