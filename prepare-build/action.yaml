@@ -36,20 +36,19 @@ runs:
     - name: Set project name
       run: |
         echo "project_name=${{ inputs.name }}" >> $GITHUB_ENV
+        echo "ecr_repository=${{ inputs.name }}" >> $GITHUB_ENV
       shell: bash
-    - name: Set artifact suffix and docker repository for 'push' event
+    - name: Set artifact suffix for 'push' event
       if: ${{ github.event_name == 'push' || github.event_name == 'repository_dispatch' }}
       run: |
         echo "artifact_infix=" >> $GITHUB_ENV
         echo "build_type=release" >> $GITHUB_ENV
-        echo "ecr_repository=release/${{ inputs.name }}" >> $GITHUB_ENV
       shell: bash
-    - name: Set artifact suffix and docker repository for 'pull_request' event
+    - name: Set artifact suffix 'pull_request' event
       if: github.event_name == 'pull_request'
       run: |
         echo "artifact_infix=-dev" >> $GITHUB_ENV
         echo "build_type=development" >> $GITHUB_ENV
-        echo "ecr_repository=release/${{ inputs.name }}" >> $GITHUB_ENV
       shell: bash
     - name: Set commit sha variables
       id: sha_vars
@@ -65,9 +64,8 @@ runs:
       shell: bash
     - name: Generate version
       env:
-        BUILD_VERSION: ${{ env.date }}.${{ github.run_number }}${{ env.artifact_infix }}-${{ steps.sha_vars.outputs.short }}
-        CHART_VERSION: ${{ env.date }}-${{ github.run_number }}${{ env.artifact_infix }}-${{ steps.sha_vars.outputs.short }}-chart
+        BUILD_VERSION: ${{ env.date }}-${{ github.run_number }}${{ env.artifact_infix }}-${{ steps.sha_vars.outputs.short }}
       run: |
         echo "build_version=$BUILD_VERSION" >> $GITHUB_ENV
-        echo "chart_version=$CHART_VERSION" >> $GITHUB_ENV
+        echo "chart_version=$BUILD_VERSION-chart" >> $GITHUB_ENV
       shell: bash
