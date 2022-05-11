@@ -52,11 +52,11 @@ runs:
         name: ${{ inputs.name }}
         github-token: ${{ inputs.github_token }}
 
-    - name: Activate parent models build
-      if: github.event_name == 'push'
-      uses: peter-evans/repository-dispatch@v1
-      with:
-        token: ${{ inputs.parent_token }}
-        repository: ${{ inputs.parent }}
-        event-type: model-is-updated
-        client-payload: '{"hello":"${{ inputs.name }}"}'
+#    - name: Activate parent models build
+#      if: github.event_name == 'push'
+#      uses: peter-evans/repository-dispatch@v1
+#      with:
+#        token: ${{ inputs.parent_token }}
+#        repository: ${{ inputs.parent }}
+#        event-type: model-is-updated
+#        client-payload: '{"hello":"${{ inputs.name }}"}'
