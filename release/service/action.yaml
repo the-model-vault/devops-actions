@@ -52,7 +52,7 @@ runs:
         secret: ${{ inputs.secret }}
         region: ${{ inputs.region }}
         run-before-build: ${{ inputs.run-before-build }}
-    - uses: the-model-vault/devops-actions/helm@v3
+    - uses: the-model-vault/devops-actions/helm@main
       with:
         chartmuseum-url: ${{ inputs.chartmuseum-url }}
         chartmuseum-username: ${{ inputs.chartmuseum-username }}
